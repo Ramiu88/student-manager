@@ -1,5 +1,23 @@
 #include<iostream>
 #include<vector>
-#include<algorthim>
+#include<algorithm>
 #include<string>
 
+
+
+
+
+
+
+
+
+
+int main()
+
+{
+
+
+
+
+  return 0;
+}
