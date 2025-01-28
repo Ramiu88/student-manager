@@ -130,10 +130,19 @@ class etudiant : public personne
            }    
    }
 
-
    string& get_id_etudiant()
    {
      return id_etudiant;
+   }
+
+   void set_nom(string nom)
+   {
+     this->nom = nom;
+   }
+
+   void set_age(int age)
+   {
+     this->age  = age;
    }
 };
 
