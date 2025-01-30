@@ -39,7 +39,11 @@ class cours
    {
      return nom_cours;
    }
-
+   
+   void set_nom(string user_nom)
+   {
+      this->nom_cours = user_nom;
+   }
    
 };
 
@@ -387,201 +391,264 @@ enseignant trouver_enseignant(string user_id_enseigant)
 };
 
 
-
-int main()
+int main() 
 {
-    int option;
+    vector<etudiant> etudiants;
+    vector<enseignant> enseignants;
+    vector<cours> cours;
+    gestionnaire_etudiants gestion;  
 
-    cout << "------------------------------------------------------" << endl;
-    cout << "------------------------------------------------------" << endl;
-    cout << "Gestion des Etudiants" << endl;
-    cout << "------------------------------------------------------" << endl;
-    cout << "------------------------------------------------------" << endl;
+    int choix;
+    do {
+        cout << "Menu:" << endl;
+        cout << "1. Ajouter un étudiant" << endl;
+        cout << "2. Supprimer un étudiant" << endl;
+        cout << "3. Afficher les étudiants" << endl;
+        cout << "4. Ajouter un enseignant" << endl;
+        cout << "5. Supprimer un enseignant" << endl;
+        cout << "6. Afficher les enseignants" << endl;
+        cout << "7. Ajouter un cours" << endl;
+        cout << "8. Supprimer un cours" << endl;
+        cout << "9. Afficher les cours" << endl;
+        cout << "10. Ajouter une note à un étudiant" << endl;
+        cout << "11. Afficher les notes d'un étudiant" << endl;
+        cout << "12. Inscrire un étudiant à un cours" << endl;
+        cout << "13. Désinscrire un étudiant d'un cours" << endl;
+        cout << "14. Afficher les étudiants inscrits à un cours" << endl;
+        cout << "15. Quitter" << endl;
+        cout << "Entrez votre choix: ";
+        cin >> choix;
 
-    cout << "1. Ajouter un etudiant" << endl;
-    cout << "2. Ajouter un enseignant" << endl;
-    cout << "3. Trouver un etudiant" << endl;
-    cout << "4. Afficher tous les etudiants" << endl;
-    cout << "5. Afficher tous les enseignants" << endl;
-    cout << "6. Inscrire un etudiant a un cours" << endl;
-    cout << "7. Desinscrire un etudiant d'un cours" << endl;
-    cout << "8. Ajouter un sujet a un enseignant" << endl;
-    cout << "9. Retirer un sujet d'un enseignant" << endl;
-    cout << "10. Ajouter une note a un etudiant" << endl;
-    cout << "11. Afficher les notes d'un etudiant" << endl;
-    cout << "12. Supprimer un etudiant du systeme" << endl;
-    cout << "14. Mettre a jour les notes d'un etudiant" << endl;
-    cout << "15. Quitter" << endl;
-
-    cout << "------------------------------------------------------" << endl;
-    cout << "------------------------------------------------------" << endl;
-
-    gestionnaire_etudiants gestionnaire;  // Create the main manager object
-
-    do
-    {
-        cout << "Entrez votre choix : " << endl;
-        cin >> option;
-
-        switch (option)
+        switch (choix) 
         {
-            case 1: {
-                string nom, id_etudiant;
+            case 1: 
+            {
+                string nom, id;
                 int age;
-                cout << "Entrez le nom de l'etudiant : ";
+                cout << "Nom de l'étudiant: ";
                 cin >> nom;
-                cout << "Entrez l'age de l'etudiant : ";
+                cout << "Age de l'étudiant: ";
                 cin >> age;
-                cout << "Entrez l'id de l'etudiant : ";
-                cin >> id_etudiant;
-
-                etudiant new_etudiant(nom, age, id_etudiant);  // Create the student object
-                gestionnaire.ajouter_etudiant(new_etudiant);    // Add the student to the manager
+                cout << "ID de l'étudiant: ";
+                cin >> id;
+                etudiants.push_back(etudiant(nom, age, id));
                 break;
             }
-
-            case 2: {
+            case 2: 
+            {
+                string id;
+                cout << "ID de l'étudiant à supprimer: ";
+                cin >> id;
+                for (int i = 0; i < etudiants.size(); ++i) 
+                {
+                    if (etudiants[i].get_id_etudiant() == id) 
+                    {
+                        etudiants.erase(etudiants.begin() + i);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 3:
+            {
+                for (int i = 0; i < etudiants.size(); ++i) 
+                {
+                    etudiants[i].afficher();
+                }
+                break;
+            }
+            case 4: 
+            {
                 string nom, id_enseignant;
                 int age;
-                cout << "Entrez le nom de l'enseignant : ";
+                cout << "Nom de l'enseignant: ";
                 cin >> nom;
-                cout << "Entrez l'age de l'enseignant : ";
+                cout << "Age de l'enseignant: ";
                 cin >> age;
-                cout << "Entrez l'id de l'enseignant : ";
+                cout << "ID de l'enseignant: ";
                 cin >> id_enseignant;
-
-                enseignant new_enseignant(nom, age, id_enseignant);  
+                enseignants.push_back(enseignant(nom, age, id_enseignant));
                 break;
             }
+            case 5: 
+            {
+                string nom;
+                cout << "Nom de l'enseignant à supprimer: ";
+                cin >> nom;
+                for (int i = 0; i < enseignants.size(); ++i) 
+                {
+                    if (enseignants[i].get_id_enseignant() == nom) 
+                    {
+                        enseignants.erase(enseignants.begin() + i);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 6:
+            {
+                for (int i = 0; i < enseignants.size(); ++i) 
+                {
+                    enseignants[i].afficher();
+                }
+                break;
+            }
+            case 7:
+                  {
+                  string nom;
+                  cout << "Nom du cours: ";
+                  cin >> nom;
 
-            case 3: {
+    
+                  cours ne_cours;
+                  ne_cours.set_nom(nom);
+
+    
+                  cours.push_back(ne_cours);
+                  break;
+                  }
+
+            case 8: 
+            {
+                string nom;
+                cout << "Nom du cours à supprimer: ";
+                cin >> nom;
+                for (int i = 0; i < cours.size(); ++i) 
+                {
+                    if (cours[i].get_nom() == nom) 
+                    {
+                        cours.erase(cours.begin() + i);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 9: 
+            {
+                for (int i = 0; i < cours.size(); ++i) 
+                {
+                    cout << cours[i].get_nom() << endl;
+                }
+                break;
+            }
+            case 10: 
+            {
                 string id_etudiant;
-                cout << "Entrez l'id de l'etudiant a trouver : ";
-                cin >> id_etudiant;
-                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant);  
-                etu.afficher();  
-                break;
-            }
-
-            case 4:
-                gestionnaire.afficher_tous_etudiants();  
-                break;
-
-            case 5:
-                gestionnaire.afficher_tous_enseignants();  
-                break;
-
-            case 6: {
-                string id_etudiant, id_cours;
-                cout << "Entrez l'id de l'etudiant : ";
-                cin >> id_etudiant;
-                cout << "Entrez l'id du cours : ";
-                cin >> id_cours;
-
-                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant);  
-                cours new_cours; 
-                etu.inscrire_cours(new_cours);
-                break;
-            }
-
-            case 7: {
-                string id_etudiant, id_cours;
-                cout << "Entrez l'id de l'etudiant : ";
-                cin >> id_etudiant;
-                cout << "Entrez l'id du cours : ";
-                cin >> id_cours;
-
-                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant); 
-                cours cours_a_desinscrire;  
-                etu.desinscrire_cours(cours_a_desinscrire);  
-                break;
-            }
-
-            case 8: {
-                string id_enseignant, sujet;
-                cout << "Entrez l'id de l'enseignant : ";
-                cin >> id_enseignant;
-                cout << "Entrez le sujet a ajouter : ";
-                cin >> sujet;
-
-                enseignant ens = gestionnaire.trouver_enseignant(id_enseignant);  
-                ens.ajouter_sujet(sujet);  
-                break;
-            }
-
-            case 9: {
-                string id_enseignant, sujet;
-                cout << "Entrez l'id de l'enseignant : ";
-                cin >> id_enseignant;
-                cout << "Entrez le sujet a retirer : ";
-                cin >> sujet;
-
-                enseignant ens = gestionnaire.trouver_enseignant(id_enseignant); 
-                ens.retirer_sujet(sujet);  
-                break;
-            }
-
-            case 10: {
-                string id_etudiant, id_cours;
                 float grade;
-                cout << "Entrez l'id de l'etudiant : ";
+                string nom_cours;
+                cout << "ID de l'étudiant: ";
                 cin >> id_etudiant;
-                cout << "Entrez l'id du cours : ";
-                cin >> id_cours;
-                cout << "Entrez la note : ";
+                cout << "Nom du cours: ";
+                cin >> nom_cours;
+                cout << "Note à ajouter: ";
                 cin >> grade;
-
-                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant); 
-                cours new_cours;  
-                etu.ajouter_note(grade, new_cours);  
+                for (int i = 0; i < etudiants.size(); ++i) 
+                {
+                    if (etudiants[i].get_id_etudiant() == id_etudiant) 
+                    {
+                        for (int j = 0; j < cours.size(); ++j) 
+                        {
+                            if (cours[j].get_nom() == nom_cours) 
+                            {
+                                etudiants[i].ajouter_note(grade, cours[j]);
+                            }
+                        }
+                    }
+                }
                 break;
             }
-
-            case 11: {
+            case 11: 
+            {
                 string id_etudiant;
-                cout << "Entrez l'id de l'etudiant : ";
+                cout << "ID de l'étudiant: ";
                 cin >> id_etudiant;
-
-                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant);  
-                etu.afficher();  
+                for (int i = 0; i < etudiants.size(); ++i) 
+                {
+                    if (etudiants[i].get_id_etudiant() == id_etudiant) 
+                    {
+                        for (int j = 0; j < etudiants[i].get_etudiant_notes().size(); ++j) 
+                        {
+                            cout << "Note: " << etudiants[i].get_etudiant_notes()[j].get_grade() << endl;
+                        }
+                    }
+                }
                 break;
             }
-
-            case 12: {
-                string id_etudiant;
-                cout << "Entrez l'id de l'etudiant a supprimer : ";
+            case 12: 
+            {
+                string id_etudiant, nom_cours;
+                cout << "ID de l'étudiant: ";
                 cin >> id_etudiant;
-
-                gestionnaire.supprimer_etudiant(id_etudiant);  
+                cout << "Nom du cours: ";
+                cin >> nom_cours;
+                for (int i = 0; i < etudiants.size(); ++i) 
+                {
+                    if (etudiants[i].get_id_etudiant() == id_etudiant) 
+                    {
+                        for (int j = 0; j < cours.size(); ++j) 
+                        {
+                            if (cours[j].get_nom() == nom_cours) 
+                            {
+                                etudiants[i].inscrire_cours(cours[j]);
+                            }
+                        }
+                    }
+                }
                 break;
             }
-
-            case 13: {
-                string id_etudiant, id_cours;
-                float grade;
-                cout << "Entrez l'id de l'etudiant : ";
+            case 13: 
+            {
+                string id_etudiant, nom_cours;
+                cout << "ID de l'étudiant: ";
                 cin >> id_etudiant;
-                cout << "Entrez l'id du cours : ";
-                cin >> id_cours;
-                cout << "Entrez la nouvelle note : ";
-                cin >> grade;
-
-                gestionnaire.mettre_a_jour_notes_etudiant(id_etudiant, id_cours, grade);  
+                cout << "Nom du cours: ";
+                cin >> nom_cours;
+                for (int i = 0; i < etudiants.size(); ++i) 
+                {
+                    if (etudiants[i].get_id_etudiant() == id_etudiant) 
+                    {
+                        for (int j = 0; j < cours.size(); ++j) 
+                        {
+                            if (cours[j].get_nom() == nom_cours) 
+                            {
+                                etudiants[i].desinscrire_cours(cours[j]);
+                            }
+                        }
+                    }
+                }
                 break;
             }
-
-            case 14:
-                cout << "Au revoir!" << endl;
+            case 14: 
+            {
+                string nom_cours;
+                cout << "Nom du cours: ";
+                cin >> nom_cours;
+                for (int i = 0; i < cours.size(); ++i) 
+                {
+                    if (cours[i].get_nom() == nom_cours) 
+                    {
+                        for (int j = 0; j < etudiants.size(); ++j) 
+                        {
+                            for (int k = 0; k < etudiants[j].get_etudiant_cours().size(); ++k) 
+                            {
+                                if (etudiants[j].get_etudiant_cours()[k].get_nom() == nom_cours) 
+                                {
+                                    cout << etudiants[j].get_id_etudiant() << " est inscrit à ce cours." << endl;
+                                }
+                            }
+                        }
+                    }
+                }
                 break;
-
+            }
+            case 15:
+                cout << "Quitter le programme." << endl;
+                break;
             default:
-                cout << "Option invalide." << endl;
+                cout << "Choix invalide." << endl;
+                break;
         }
-    } while (option != 14);  
+    } while (choix != 15);
 
     return 0;
 }
-
-
-
-
