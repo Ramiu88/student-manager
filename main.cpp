@@ -47,7 +47,7 @@ class cours
 class note
 {
    private:
-   float grade;
+   float grade = 0;
    
    public:
 
@@ -109,67 +109,50 @@ class etudiant : public personne
 
    void inscrire_cours(cours user_cours)
    {
-      auto pos = find(etudiant_cours.begin(),etudiant_cours.end(),user_cours);
+      for(int i = 0;i < etudiant_cours.size();i++)
+      {
+         if(etudiant_cours[i].get_id_cours() == user_cours.get_id_cours())
+         {
+             cout << "Etudiant cours deja existe"<<endl;
+             return;
+         }
+      }
 
-          if(pos != etudiant_cours.end())
-          {
-              cout << "Etudiant cours deja existe" << endl;
-              return;
-          }
-
-           etudiant_cours.push_back(user_cours);
+       etudiant_cours.push_back(user_cours);
        
    }
 
 
    void desinscrire_cours(cours user_cours)
-   {
-     int i;
-      auto pos = find(etudiant_cours.begin(),etudiant_cours.end(),user_cours);
+{
+    for (int i = 0; i < etudiant_cours.size(); i++) {
+        if (etudiant_cours[i].get_id_cours() == user_cours.get_id_cours()) {
+            etudiant_cours.erase(etudiant_cours.begin() + i);
+            return;
+        }
+    }
+    cout << "Ce cours n'existe pas" << endl;
+}
 
-          if(pos == etudiant_cours.end())
-          {
-              cout << "Ce cours n'existe pas" << endl;
-              return;
-          }
 
+   void ajouter_note(float user_note, cours user_cours)
+{
+    for (int i = 0; i < etudiant_cours.size(); i++) {
+        if (etudiant_cours[i].get_id_cours() == user_cours.get_id_cours()) 
+        {
+            if (etudiant_notes[i].get_grade() == 0) 
+            {  
+                etudiant_notes[i].get_grade() = user_note;
+            } else 
+            {
+                cout << "Le cours " << etudiant_cours[i].get_nom() << " a deja une note" << endl;
+            }
+            return;
+        }
+    }
+    cout << "Ce cours n'existe pas" << endl;
+}
 
-           else
-           {
-
-              for(i = 0;i < etudiant_cours.size();i++)
-              {
-                 if(etudiant_cours[i].get_id_cours() == user_cours.get_id_cours())
-                 {
-                      break;
-                 }
-              }
-
-                etudiant_cours.erase(etudiant_cours.begin()+i);
-
-           }    
-   }
-
-   void ajouter_note(float user_note,cours user_cours)
-   {
-      auto pos = find(etudiant_cours.begin(),etudiant_cours.end(),user_cours);
-
-       if(pos == etudiant_cours.end())
-       {
-          cout << "Ce cours n'existe pas"<<endl;
-       }
-       else
-       {
-          if(etudiant_notes[pos - etudiant_cours.begin()].get_grade() == NULL)
-          {
-             etudiant_notes[pos - etudiant_cours.begin()].get_grade() = user_note;
-          }
-          else
-          {
-             cout << "Le cours "<<etudiant_cours[pos-etudiant_cours.begin()].get_nom()<<" a deja une note"<<endl;
-          }
-       }
-   }
 
    void ajouter_cours(cours user_cours)
    {
@@ -190,6 +173,7 @@ class etudiant : public personne
    {
      return etudiant_notes;
    }
+
 };
 
 
@@ -269,6 +253,12 @@ class enseignant : public personne
                 sujets.erase(sujets.begin()+i);
          }
    }   
+
+
+   string &get_id_enseignant()
+   {
+      return id_enseignant;
+   }
 };
 
 
@@ -282,52 +272,60 @@ class gestionnaire_etudiants
    public:
 
    void ajouter_etudiant(etudiant user_etudiant)
-   {
-       auto pos = find(etudiants.begin(),etudiants.end(),user_etudiant);
-
-        if(pos != etudiants.end())
-        {
-             cout << "Etudiant deja exist"<<endl;
-             return;
+{
+    for (int i = 0; i < etudiants.size(); i++) {
+        if (etudiants[i].get_id_etudiant() == user_etudiant.get_id_etudiant()) {
+            cout << "Etudiant deja existe" << endl;
+            return;
         }
-
-          etudiants.push_back(user_etudiant);
-   }
+    }
+    etudiants.push_back(user_etudiant);
+}
 
    void ajouter_enseignant(enseignant user_enseignant)
-   {
-       auto pos = find(enseignants.begin(),enseignants.end(),user_enseignant);
-
-        if(pos != etudiants.end())
+{
+    for (int i = 0; i < enseignants.size(); i++) 
+    {
+        if (enseignants[i].get_id_enseignant() == user_enseignant.get_id_enseignant()) 
         {
-             cout << "Enseignant deja exist"<<endl;
-             return;
+            cout << "Enseignant deja existe" << endl;
+            return;
         }
+    }
+    enseignants.push_back(user_enseignant);
+}
 
-          enseignants.push_back(user_enseignant);
-   }
 
    etudiant trouver_etudiant(string user_id_etudiant)
-   {
+{
+    for (int i = 0; i < etudiants.size(); i++) 
+    {
+        if (etudiants[i].get_id_etudiant() == user_id_etudiant) 
+        {
+            return etudiants[i];
+        }
+    }
+    cout << "Etudiant no trouve" << endl;
+}
 
-    int i;
+enseignant trouver_enseignant(string user_id_enseigant)
+{
+    for (int i = 0; i < enseignants.size(); i++) 
+    {
+        if (enseignants[i].get_id_enseignant() == user_id_enseigant) 
+        {
+            return enseignants[i];
+        }
+    }
+    cout << "Etudiant no trouve" << endl;
+}
 
-      for(i = 0;i < etudiants.size();i++)
-      {
-         if(etudiants[i].get_id_etudiant() == user_id_etudiant)
-         {
-            break;
-         }
-      }
-
-          return etudiants[i];
-   }
 
    void afficher_tous_etudiants()
    {
        for(int i = 0;i < etudiants.size();i++)
        {
-          
+          etudiants[i].afficher();
        }
    }
 
@@ -335,136 +333,254 @@ class gestionnaire_etudiants
    {
      for(int i = 0;i < enseignants.size();i++)
      {
-       
+        enseignants[i].afficher();
      }
    }
 
    void supprimer_etudiant(string user_id_etudiant)
-   {
-      auto pos = find(etudiants.begin(),etudiants.end(),user_id_etudiant);
+{
+    for (int i = 0; i < etudiants.size(); i++)
+     {
+        if (etudiants[i].get_id_etudiant() == user_id_etudiant) 
+        {
+            etudiants.erase(etudiants.begin() + i);
+            return;
+        }
+    }
+    cout << "Etudiant n'existe pas" << endl;
+}
 
-       if(pos != etudiants.end())
-       {
-          etudiants.erase(etudiants.begin()+(pos-etudiants.begin()));
-       }
-
-       else
-       {
-         cout << "Etudiant n'existe pas"<<endl;
-       }
-   }
 
    void mettre_a_jour_notes_etudiant(string user_id_etudiant,string user_id_cours,float user_grade)
    {
+      bool b = false;
+
       for(int i = 0;i < etudiants.size();i++)
       {
+          if(etudiants[i].get_id_etudiant() == user_id_etudiant)
+          {
+
+          
          for(int j = 0;j < etudiants[i].get_etudiant_cours().size();j++)
          {
             if(etudiants[i].get_etudiant_cours()[j].get_id_cours() == user_id_cours)
             {
                etudiants[i].get_etudiant_notes()[j].get_grade() = user_grade;
+               cout << "Note mise a jour pour l'etudiant" << user_id_etudiant << "dans le cours " << user_id_cours << endl;
+               b = true;
+               break;
             }
          }
+
+          if(b == false)
+          {
+            cout << "le cours " << user_id_cours << "n'est pas trouve "<< "pour l'etudiant" << user_id_etudiant<<endl;
+          }
       }
+       else
+       {
+           cout << "L'étudiant avec l'ID " << user_id_etudiant << " n'a pas été trouvé." << endl;
+       }
    }
 
+   }
 };
 
 
 
 int main()
-
 {
+    int option;
 
-        int option;
+    cout << "------------------------------------------------------" << endl;
+    cout << "------------------------------------------------------" << endl;
+    cout << "Gestion des Etudiants" << endl;
+    cout << "------------------------------------------------------" << endl;
+    cout << "------------------------------------------------------" << endl;
 
+    cout << "1. Ajouter un etudiant" << endl;
+    cout << "2. Ajouter un enseignant" << endl;
+    cout << "3. Trouver un etudiant" << endl;
+    cout << "4. Afficher tous les etudiants" << endl;
+    cout << "5. Afficher tous les enseignants" << endl;
+    cout << "6. Inscrire un etudiant a un cours" << endl;
+    cout << "7. Desinscrire un etudiant d'un cours" << endl;
+    cout << "8. Ajouter un sujet a un enseignant" << endl;
+    cout << "9. Retirer un sujet d'un enseignant" << endl;
+    cout << "10. Ajouter une note a un etudiant" << endl;
+    cout << "11. Afficher les notes d'un etudiant" << endl;
+    cout << "12. Supprimer un etudiant du systeme" << endl;
+    cout << "14. Mettre a jour les notes d'un etudiant" << endl;
+    cout << "15. Quitter" << endl;
 
+    cout << "------------------------------------------------------" << endl;
+    cout << "------------------------------------------------------" << endl;
 
-        "------------------------------------------------------";
-        "------------------------------------------------------";
-         cout << "Gestion des Etudiants"<<endl;
-        "------------------------------------------------------";
-        "------------------------------------------------------";
+    gestionnaire_etudiants gestionnaire;  // Create the main manager object
 
-        cout << "1. Ajouter un etudiant"<<endl;
-        cout << "2. Ajouter un enseignant"<<endl;
-        cout << "3. Trouver un etudiant"<<endl;
-        cout << "4. Afficher tous les etudiants"<<endl;
-        cout << "5. Afficher tous les enseignants"<<endl;
-        cout << "6. Inscrire un etudiant a un cours"<<endl;
-        cout << "7. Desinscrire un etudiant d'un cours"<<endl;
-        cout << "8. Ajouter un suject a un enseignant"<<endl;
-        cout << "9. bxRetirer un suject d'un enseignant"<<endl;
-        cout << "10. Ajouter une note a un etudiant"<<endl;
-        cout << "11. Afficher les notes d'un etudiant"<<endl;
-        cout << "12. Supprimer un etudiant du system"<<endl;
-        cout << "13. Mettre a jounr les details d'un etudiant"<<endl;
-        cout << "14. Mettre a jour les notes d'un etudiant"<<endl;
-        cout << "15. Quitter"
-
-
-        "------------------------------------------------------";
-        "------------------------------------------------------";
-
-        cout << "Entrez votre choix : "<<endl;
+    do
+    {
+        cout << "Entrez votre choix : " << endl;
         cin >> option;
-
-       do{
 
         switch (option)
         {
-          case 1:
+            case 1: {
+                string nom, id_etudiant;
+                int age;
+                cout << "Entrez le nom de l'etudiant : ";
+                cin >> nom;
+                cout << "Entrez l'age de l'etudiant : ";
+                cin >> age;
+                cout << "Entrez l'id de l'etudiant : ";
+                cin >> id_etudiant;
 
-          break;
-          case 2:
+                etudiant new_etudiant(nom, age, id_etudiant);  // Create the student object
+                gestionnaire.ajouter_etudiant(new_etudiant);    // Add the student to the manager
+                break;
+            }
 
-          break;
-          case 3:
+            case 2: {
+                string nom, id_enseignant;
+                int age;
+                cout << "Entrez le nom de l'enseignant : ";
+                cin >> nom;
+                cout << "Entrez l'age de l'enseignant : ";
+                cin >> age;
+                cout << "Entrez l'id de l'enseignant : ";
+                cin >> id_enseignant;
 
-          break;
-          case 4:
+                enseignant new_enseignant(nom, age, id_enseignant);  
+                break;
+            }
 
-          break;
-          case 5:
+            case 3: {
+                string id_etudiant;
+                cout << "Entrez l'id de l'etudiant a trouver : ";
+                cin >> id_etudiant;
+                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant);  
+                etu.afficher();  
+                break;
+            }
 
-          break;
-          case 6:
+            case 4:
+                gestionnaire.afficher_tous_etudiants();  
+                break;
 
-          break;
-          case 7:
+            case 5:
+                gestionnaire.afficher_tous_enseignants();  
+                break;
 
-          break;
-          case 8:
+            case 6: {
+                string id_etudiant, id_cours;
+                cout << "Entrez l'id de l'etudiant : ";
+                cin >> id_etudiant;
+                cout << "Entrez l'id du cours : ";
+                cin >> id_cours;
 
-          break;
-          case 9:
+                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant);  
+                cours new_cours; 
+                etu.inscrire_cours(new_cours);
+                break;
+            }
 
-          break;
-          case 10:
+            case 7: {
+                string id_etudiant, id_cours;
+                cout << "Entrez l'id de l'etudiant : ";
+                cin >> id_etudiant;
+                cout << "Entrez l'id du cours : ";
+                cin >> id_cours;
 
-          break;
-          case 11:
+                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant); 
+                cours cours_a_desinscrire;  
+                etu.desinscrire_cours(cours_a_desinscrire);  
+                break;
+            }
 
-          break;
-          case 12:
+            case 8: {
+                string id_enseignant, sujet;
+                cout << "Entrez l'id de l'enseignant : ";
+                cin >> id_enseignant;
+                cout << "Entrez le sujet a ajouter : ";
+                cin >> sujet;
 
-          break;
-          case 13:
+                enseignant ens = gestionnaire.trouver_enseignant(id_enseignant);  
+                ens.ajouter_sujet(sujet);  
+                break;
+            }
 
-          break;
-          case 14:
+            case 9: {
+                string id_enseignant, sujet;
+                cout << "Entrez l'id de l'enseignant : ";
+                cin >> id_enseignant;
+                cout << "Entrez le sujet a retirer : ";
+                cin >> sujet;
 
-          break;
-          case 15:
+                enseignant ens = gestionnaire.trouver_enseignant(id_enseignant); 
+                ens.retirer_sujet(sujet);  
+                break;
+            }
 
-          break;
-          default:
-                  cout << "Option invalide "<<endl;
-          break;
+            case 10: {
+                string id_etudiant, id_cours;
+                float grade;
+                cout << "Entrez l'id de l'etudiant : ";
+                cin >> id_etudiant;
+                cout << "Entrez l'id du cours : ";
+                cin >> id_cours;
+                cout << "Entrez la note : ";
+                cin >> grade;
+
+                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant); 
+                cours new_cours;  
+                etu.ajouter_note(grade, new_cours);  
+                break;
+            }
+
+            case 11: {
+                string id_etudiant;
+                cout << "Entrez l'id de l'etudiant : ";
+                cin >> id_etudiant;
+
+                etudiant etu = gestionnaire.trouver_etudiant(id_etudiant);  
+                etu.afficher();  
+                break;
+            }
+
+            case 12: {
+                string id_etudiant;
+                cout << "Entrez l'id de l'etudiant a supprimer : ";
+                cin >> id_etudiant;
+
+                gestionnaire.supprimer_etudiant(id_etudiant);  
+                break;
+            }
+
+            case 13: {
+                string id_etudiant, id_cours;
+                float grade;
+                cout << "Entrez l'id de l'etudiant : ";
+                cin >> id_etudiant;
+                cout << "Entrez l'id du cours : ";
+                cin >> id_cours;
+                cout << "Entrez la nouvelle note : ";
+                cin >> grade;
+
+                gestionnaire.mettre_a_jour_notes_etudiant(id_etudiant, id_cours, grade);  
+                break;
+            }
+
+            case 14:
+                cout << "Au revoir!" << endl;
+                break;
+
+            default:
+                cout << "Option invalide." << endl;
         }
-        }while(option != 15 && option > 1 && option < 15);
-}  
+    } while (option != 14);  
 
+    return 0;
+}
 
 
 
