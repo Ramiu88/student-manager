@@ -44,12 +44,31 @@ class cours
 };
 
 
+class note
+{
+   private:
+   float grade;
+   
+   public:
+
+   note(float grade)
+   {
+      this->grade = grade;
+   }
+   float& get_grade()
+   {
+     return grade;
+   }
+};
+
+
 class etudiant : public personne
 {
    private:
 
    string id_etudiant;
    vector <cours> etudiant_cours;
+   vector <note> etudiant_notes;
 
 
    public:
@@ -76,8 +95,9 @@ class etudiant : public personne
      cout << "L'age de l'etudiant est : "<<age<<endl;
      for(int i = 0;i < etudiant_cours.size();i++)
      {
-        cout << "L'id de cours est : "<<etudiant_cours[i].get_id_cours()<<endl;
-        cout << "Le nom du cours est : "<<etudiant_cours[i].get_nom()<<endl;
+        // to modify this when overleading <<
+        cout << "L'id de cours est : "<<etudiant_cours[i].get_id_cours()<<endl; 
+        cout << "Le nom du cours est : "<<etudiant_notes[i].get_grade()<<endl;
      }
    }
 
@@ -130,19 +150,45 @@ class etudiant : public personne
            }    
    }
 
+   void ajouter_note(float user_note,cours user_cours)
+   {
+      auto pos = find(etudiant_cours.begin(),etudiant_cours.end(),user_cours);
+
+       if(pos == etudiant_cours.end())
+       {
+          cout << "Ce cours n'existe pas"<<endl;
+       }
+       else
+       {
+          if(etudiant_notes[pos - etudiant_cours.begin()].get_grade() == NULL)
+          {
+             etudiant_notes[pos - etudiant_cours.begin()].get_grade() = user_note;
+          }
+          else
+          {
+             cout << "Le cours "<<etudiant_cours[pos-etudiant_cours.begin()].get_nom()<<" a deja une note"<<endl;
+          }
+       }
+   }
+
+   void ajouter_cours(cours user_cours)
+   {
+       etudiant_cours.push_back(user_cours);
+   }
+
    string& get_id_etudiant()
    {
      return id_etudiant;
    }
 
-   void set_nom(string nom)
+   vector <cours>& get_etudiant_cours()
    {
-     this->nom = nom;
+      return etudiant_cours;
    }
 
-   void set_age(int age)
+   vector <note>& get_etudiant_notes()
    {
-     this->age  = age;
+     return etudiant_notes;
    }
 };
 
@@ -293,9 +339,36 @@ class gestionnaire_etudiants
      }
    }
 
+   void supprimer_etudiant(string user_id_etudiant)
+   {
+      auto pos = find(etudiants.begin(),etudiants.end(),user_id_etudiant);
+
+       if(pos != etudiants.end())
+       {
+          etudiants.erase(etudiants.begin()+(pos-etudiants.begin()));
+       }
+
+       else
+       {
+         cout << "Etudiant n'existe pas"<<endl;
+       }
+   }
+
+   void mettre_a_jour_notes_etudiant(string user_id_etudiant,string user_id_cours,float user_grade)
+   {
+      for(int i = 0;i < etudiants.size();i++)
+      {
+         for(int j = 0;j < etudiants[i].get_etudiant_cours().size();j++)
+         {
+            if(etudiants[i].get_etudiant_cours()[j].get_id_cours() == user_id_cours)
+            {
+               etudiants[i].get_etudiant_notes()[j].get_grade() = user_grade;
+            }
+         }
+      }
+   }
+
 };
-
-
 
 
 
@@ -303,17 +376,94 @@ int main()
 
 {
 
-
-
-  return 0;
-}
+        int option;
 
 
 
+        "------------------------------------------------------";
+        "------------------------------------------------------";
+         cout << "Gestion des Etudiants"<<endl;
+        "------------------------------------------------------";
+        "------------------------------------------------------";
+
+        cout << "1. Ajouter un etudiant"<<endl;
+        cout << "2. Ajouter un enseignant"<<endl;
+        cout << "3. Trouver un etudiant"<<endl;
+        cout << "4. Afficher tous les etudiants"<<endl;
+        cout << "5. Afficher tous les enseignants"<<endl;
+        cout << "6. Inscrire un etudiant a un cours"<<endl;
+        cout << "7. Desinscrire un etudiant d'un cours"<<endl;
+        cout << "8. Ajouter un suject a un enseignant"<<endl;
+        cout << "9. bxRetirer un suject d'un enseignant"<<endl;
+        cout << "10. Ajouter une note a un etudiant"<<endl;
+        cout << "11. Afficher les notes d'un etudiant"<<endl;
+        cout << "12. Supprimer un etudiant du system"<<endl;
+        cout << "13. Mettre a jounr les details d'un etudiant"<<endl;
+        cout << "14. Mettre a jour les notes d'un etudiant"<<endl;
+        cout << "15. Quitter"
 
 
+        "------------------------------------------------------";
+        "------------------------------------------------------";
 
+        cout << "Entrez votre choix : "<<endl;
+        cin >> option;
 
+       do{
+
+        switch (option)
+        {
+          case 1:
+
+          break;
+          case 2:
+
+          break;
+          case 3:
+
+          break;
+          case 4:
+
+          break;
+          case 5:
+
+          break;
+          case 6:
+
+          break;
+          case 7:
+
+          break;
+          case 8:
+
+          break;
+          case 9:
+
+          break;
+          case 10:
+
+          break;
+          case 11:
+
+          break;
+          case 12:
+
+          break;
+          case 13:
+
+          break;
+          case 14:
+
+          break;
+          case 15:
+
+          break;
+          default:
+                  cout << "Option invalide "<<endl;
+          break;
+        }
+        }while(option != 15 && option > 1 && option < 15);
+}  
 
 
 
